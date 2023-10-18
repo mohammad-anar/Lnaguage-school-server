@@ -26,6 +26,20 @@ async function run() {
   try {
     await client.connect();
 
+    const productsCollection = client.db('productsDB').collection('products');
+    // read products 
+    app.get('/products', async (req, res) => {
+      const cursor = productsCollection.find();
+      const result = await cursor.toArray();
+      res.send(result)
+    });
+    // insert products 
+    app.post('/products', async (req, res) => {
+      const product = req.body;
+      const result = await productsCollection.insertOne(product);
+      res.send(result);
+
+    });
 
 
     // Send a ping to confirm a successful connection
@@ -40,7 +54,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-  res.send('Data is comming from \'teccnology-and-electronics\' server ')
+  res.send('Response is comming from \'teccnology-and-electronics\' server ')
 })
 
 app.listen(port, () => {
