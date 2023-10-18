@@ -33,6 +33,13 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result)
     });
+    app.get('/brandproducts/:brand', async (req, res) => {
+      const brand = req.params.brand;
+      const query = {brand: brand}
+      const data = await productsCollection.find(query).toArray();
+      res.send(data)
+      
+    })
     // insert products 
     app.post('/products', async (req, res) => {
       const product = req.body;
