@@ -26,6 +26,7 @@ async function run() {
 
     const productsCollection = client.db("productsDB").collection("products");
     const cartCollection = client.db("productsDB").collection("cart");
+    const userCollection = client.db("productsDB").collection("user");
     // read products
     app.get("/products", async (req, res) => {
       const cursor = productsCollection.find();
@@ -68,12 +69,18 @@ async function run() {
       res.send(result);
     });
 
-    // insert cagt product
+    // insert cart product
     app.post("/cart", async (req, res) => {
       const product = req.body;
       const result = await cartCollection.insertOne(product);
       res.send(result);
     });
+    // insert user 
+    app.post('/users', async (req, res) => {
+      const user = req.body;
+      const result = await userCollection.insertOne(user);
+      res.send(result);
+    })
 
     app.put("/update/:id", async (req, res) => {
       const id = req.params.id;
